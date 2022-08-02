@@ -2,21 +2,10 @@
 library(readr)
 library(psych)
 library(stats)
-performPCA <- function(data){
-  pca <- principal(data,nfactors=3,rotate="varimax")
-  return(pca)
-}
 
-fullData <- read.csv("dweckAllData.csv")
-fullData <- fullData[,3:ncol(fullData)]
-fullData <- as.matrix(fullData)
-fullData <- matrix(as.numeric(fullData),ncol=ncol(fullData))
-fullData <- t(fullData)
-pca <- performPCA(fullData)
-pca$loadings
-loadings <- c(pca$loadings)
-loadings <- matrix(loadings,nrow=40,ncol=3)
-items <- as.data.frame(read.csv("dweckAllData.csv")[,2])
-colnames(items) <- c("items")
-loadings <- cbind(items,loadings)
-write.csv(loadings,"loadingsAllDweck.csv")
+dweckStudies1_2_4.orig <- read.csv("dweckAllData.csv")
+dweckStudies1_2_4.itemsOnly <- dweckStudies1_2_4.orig[,3:ncol(dweckStudies1_2_4.orig)]
+nfactors(dweckStudies1_2_4.itemsOnly)  ## hmmm...
+dweckStudies1_2_4.pca <- principal(dweckStudies1_2_4.itemsOnly,nfactors=2,rotate="varimax")
+print(dweckStudies1_2_4.pca)
+write.csv(dweckStudies1_2_4.pca$loadings,"studies1_2_4Loadings.csv")
